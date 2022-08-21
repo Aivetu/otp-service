@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 @org.springframework.stereotype.Service
 interface OtpService {
-    public int generateOTP(String username, LocalDateTime expiryTime, int size);
+    public String createOTP(String username, int expiryTime, int size);
 
-    public Boolean validateOTP(String username,int otp);
+    public Boolean validateOTP(String username,int otp) throws Exception;
 
 
 }
