@@ -9,22 +9,14 @@ import java.time.LocalDateTime;
 @Table(name = "otp_service")
 public class OtpModel {
     @Id
-    private Integer id;
     private String username;
-    private int otp;
+    private String otp;
     private LocalDateTime expires_at;
     private LocalDateTime created_at;
     private LocalDateTime used_at;
     private String status;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -34,11 +26,11 @@ public class OtpModel {
         this.username = username;
     }
 
-    public int getOtp() {
+    public String getOtp() {
         return otp;
     }
 
-    public void setOtp(int otp) {
+    public void setOtp(String otp) {
         this.otp = otp;
     }
 

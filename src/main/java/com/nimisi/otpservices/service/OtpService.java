@@ -1,13 +1,14 @@
 package com.nimisi.otpservices.service;
 
 
-import java.time.LocalDateTime;
+import com.nimisi.otpservices.model.CreateModel;
+import com.nimisi.otpservices.model.ValidateModel;
 
-@org.springframework.stereotype.Service
+
 interface OtpService {
-    public String createOTP(String username, int expiryTime, int size);
+    public String createNewOTP(CreateModel createModel);
 
-    public Boolean validateOTP(String username,int otp) throws Exception;
+    public Boolean validateNewOTP(ValidateModel validateModel) throws Exception;
 
 
 }
