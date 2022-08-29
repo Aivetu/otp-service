@@ -1,9 +1,9 @@
 package com.nimisi.otpservices.service;
 
+import com.nimisi.otpservices.enums.OtpStatus;
 import com.nimisi.otpservices.exceptions.OtpExceptions;
 import com.nimisi.otpservices.model.CreateModel;
 import com.nimisi.otpservices.model.OtpModel;
-import com.nimisi.otpservices.model.ValidateModel;
 import com.nimisi.otpservices.repository.OtpRepo;
 import com.nimisi.otpservices.utils.OtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,31 +38,30 @@ public class OtpServiceImpl implements OtpService {
        model.setCreated_at(createTime);
        model.setUsername(createModel.getUsername());
        model.setOtp(otp);
+       model.setStatus(OtpStatus.ACTIVE);
        repository.save(model);
 
         return otp;
     }
 
     @Override
-    public Boolean validateNewOTP(ValidateModel validateModel)  {
-        Optional<OtpModel> username = repository.findByUsername(validateModel.getUsername());
+    public Boolean validateNewOTP(String username,String otp)  {
+        Optional<OtpModel> user = repository.findByUsernameAndOtp(username, otp);
 
-        if(username.isPresent()){
-            if (repository.findByOtp(validateModel.getOtp()).isPresent()){
-                if(OtpUtils.expired(username.get().getExpires_at())){
-                    username.get().setStatus("Expired");
-                    repository.save(username.get());
+        if(user.isPresent()){
+                if(OtpUtils.expired(user.get().getExpires_at())){
+                    user.get().setStatus(OtpStatus.EXPIRED);
+                    repository.save(user.get());
                     throw new OtpExceptions("Otp has expired");
                 }
-                username.get().setUsed_at(LocalDateTime.now());
-                username.get().setStatus("Used");
-                repository.save(username.get());
+                user.get().setUsed_at(LocalDateTime.now());
+                user.get().setStatus(OtpStatus.USED);
+                repository.save(user.get());
                 return true;
 
-            }
-            else throw new OtpExceptions("Incorrect Otp");
+
         }
-        else throw new OtpExceptions("Wrong Username");
+        else throw new OtpExceptions("Incorrect OTP");
 
 
 

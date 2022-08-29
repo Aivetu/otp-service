@@ -1,8 +1,8 @@
 package com.nimisi.otpservices.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.nimisi.otpservices.enums.OtpStatus;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,7 +14,8 @@ public class OtpModel {
     private LocalDateTime expires_at;
     private LocalDateTime created_at;
     private LocalDateTime used_at;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OtpStatus status;
 
 
 
@@ -42,11 +43,11 @@ public class OtpModel {
         this.expires_at = expires_at;
     }
 
-    public String getStatus() {
+    public OtpStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OtpStatus status) {
         this.status = status;
     }
 
@@ -67,7 +68,7 @@ public class OtpModel {
     }
 
 
-;
+
 
 
 }
